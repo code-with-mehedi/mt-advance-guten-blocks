@@ -32,7 +32,6 @@ registerBlockType("mtgtab/testimonial", {
   icon: { src: Logo },
 
   edit: (props) => {
-    console.log(props);
     //extract attributes value
     const {
       attributes: {
