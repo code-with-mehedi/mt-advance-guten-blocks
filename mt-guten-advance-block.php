@@ -54,7 +54,8 @@ class Mtgtab_assets {
         //an array of blocks
         $blocs=[
             'mtgtab/testimonial',
-            'mtgtab/hero'
+            'mtgtab/hero',
+            'mtgtab/image-with-text'
         ];
 
         //add the blocks and resgister the stylesheets

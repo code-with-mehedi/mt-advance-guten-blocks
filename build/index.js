@@ -104,7 +104,9 @@ const {
 } = wp.blocks;
 const {
   RichText,
-  MediaUpload
+  MediaUpload,
+  AlignmentToolbar,
+  BlockControls
 } = wp.blockEditor;
 const {
   Button,
@@ -125,7 +127,17 @@ registerBlockType("mtgtab/hero", {
       type: "string",
       source: "html",
       selector: ".hero-block p"
+    },
+    heroBackground: {
+      type: "string"
+    },
+    heroAlignment: {
+      type: "string",
+      default: "center"
     }
+  },
+  supports: {
+    align: ["wide", "full"]
   },
   edit: props => {
     console.log(props); //extract props
@@ -133,7 +145,9 @@ registerBlockType("mtgtab/hero", {
     const {
       attributes: {
         heroTitle,
-        heroContent
+        heroContent,
+        heroBackground,
+        heroAlignment
       },
       setAttributes
     } = props; //Hero Title
@@ -149,17 +163,55 @@ registerBlockType("mtgtab/hero", {
       setAttributes({
         heroContent: content
       });
+    }; //set attribute testimonial image
+
+
+    const onSelectHeroBg = media => {
+      setAttributes({
+        heroBackground: media.sizes.medium.url
+      });
+    }; //Set Hero Item Alignment
+
+
+    const alignHero = newAlign => {
+      setAttributes({
+        heroAlignment: newAlign
+      });
     };
 
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       class: "section"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "hero-block"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      class: "hero-block",
+      style: {
+        backgroundImage: `url(${heroBackground})`
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(AlignmentToolbar, {
+      onChange: alignHero
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+      onSelect: onSelectHeroBg,
+      type: "image",
+      render: ({
+        open
+      }) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(IconButton, {
+        onClick: open,
+        icon: "format-image",
+        showTooltip: "true",
+        label: "Uload Background"
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", {
+      style: {
+        textAlign: heroAlignment
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       value: heroTitle,
       onChange: editHeroTitle,
       placeholder: "Add Hero Title"
-    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      style: {
+        textAlign: heroAlignment
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       value: heroContent,
       onChange: editHeroContent,
       placeholder: "Add Hero Content"
@@ -170,17 +222,102 @@ registerBlockType("mtgtab/hero", {
     const {
       attributes: {
         heroTitle,
-        heroContent
+        heroContent,
+        heroBackground,
+        heroAlignment
       }
     } = props;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       class: "section"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "hero-block"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      class: "hero-block",
+      style: {
+        backgroundImage: `url(${heroBackground})`
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", {
+      style: {
+        textAlign: heroAlignment
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: heroTitle
-    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      style: {
+        textAlign: heroAlignment
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: heroContent
+    })))));
+  }
+});
+
+/***/ }),
+
+/***/ "./src/imagewithText/index.js":
+/*!************************************!*\
+  !*** ./src/imagewithText/index.js ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../logo.svg */ "./src/logo.svg");
+
+const {
+  registerBlockType
+} = wp.blocks;
+const {
+  RichText,
+  MediaUpload,
+  AlignmentToolbar,
+  BlockControls
+} = wp.blockEditor;
+const {
+  Button,
+  IconButton
+} = wp.components;
+
+registerBlockType("mtgtab/image-with-text", {
+  title: "Image with Text",
+  category: "mt-blocks",
+  icon: {
+    src: _logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+  },
+  supports: {
+    align: ["wide", "full"]
+  },
+  edit: props => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "image-text-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "container"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "content"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Download our App!"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Morbi eget iaculis tellus. Vestibulum eu leo odio. Pellentesque lacus magna, suscipit sed semper sed, tempor vitae nisi. Vivamus venenatis, lacus in ultricies pharetra, odio mi sagittis ipsum, ac maximus turpis mi eu mauris. Proin sed urna sed nisi ultricies maximus vitae vitae felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In molestie est eget imperdiet ornare. Aliquam erat volutpat. Vestibulum a condimentum sem.", " "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: "#",
+      className: "button"
+    }, "Download")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "image"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+      src: "img/app.png"
+    })))));
+  },
+  save: props => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "image-text-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "container"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "content"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Download our App!"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Morbi eget iaculis tellus. Vestibulum eu leo odio. Pellentesque lacus magna, suscipit sed semper sed, tempor vitae nisi. Vivamus venenatis, lacus in ultricies pharetra, odio mi sagittis ipsum, ac maximus turpis mi eu mauris. Proin sed urna sed nisi ultricies maximus vitae vitae felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In molestie est eget imperdiet ornare. Aliquam erat volutpat. Vestibulum a condimentum sem.", " "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: "#",
+      className: "button"
+    }, "Download")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "image"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+      src: "img/app.png"
     })))));
   }
 });
@@ -198,7 +335,9 @@ registerBlockType("mtgtab/hero", {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
 /* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
+/* harmony import */ var _imagewithText__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imagewithText */ "./src/imagewithText/index.js");
 // Import all the blocks scripts
+
 
 
 

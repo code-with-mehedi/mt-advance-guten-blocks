@@ -69,16 +69,14 @@ h1 {
 
 /** Hero **/
 .hero-block {
-  background: #222;
   background-repeat: no-repeat;
   background-position: bottom center;
   background-size: cover;
-  height: 650px;
+  min-height: 150px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   color: white;
-  padding-top: 120px;
+  padding: 120px 0;
 }
 .hero-block h1 {
   font-weight: 700;
