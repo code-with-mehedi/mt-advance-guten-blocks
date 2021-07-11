@@ -272,7 +272,8 @@ const {
   RichText,
   MediaUpload,
   AlignmentToolbar,
-  BlockControls
+  BlockControls,
+  URLInputButton
 } = wp.blockEditor;
 const {
   Button,
@@ -285,39 +286,163 @@ registerBlockType("mtgtab/image-with-text", {
   icon: {
     src: _logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
   },
+  attributes: {
+    blockHeading: {
+      type: "string",
+      source: "html",
+      selector: ".content h1"
+    },
+    blockContent: {
+      type: "string",
+      source: "html",
+      selector: ".content p"
+    },
+    blockImage: {
+      type: "string",
+      source: "attribute",
+      attribute: "src",
+      selector: ".image img"
+    },
+    btnUrl: {
+      type: "string"
+    },
+    alignContent: {
+      type: "string",
+      default: "center"
+    }
+  },
   supports: {
     align: ["wide", "full"]
   },
+  styles: [{
+    name: "default",
+    label: "Blue (Default)",
+    isDefault: true
+  }, {
+    name: "green",
+    label: "Green"
+  }, {
+    name: "pink",
+    label: "Pink"
+  }],
   edit: props => {
+    //extract props
+    const {
+      attributes: {
+        blockHeading,
+        blockContent,
+        blockImage,
+        btnUrl,
+        alignContent
+      },
+      setAttributes
+    } = props;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "image-text-block"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "container"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "content"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Download our App!"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Morbi eget iaculis tellus. Vestibulum eu leo odio. Pellentesque lacus magna, suscipit sed semper sed, tempor vitae nisi. Vivamus venenatis, lacus in ultricies pharetra, odio mi sagittis ipsum, ac maximus turpis mi eu mauris. Proin sed urna sed nisi ultricies maximus vitae vitae felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In molestie est eget imperdiet ornare. Aliquam erat volutpat. Vestibulum a condimentum sem.", " "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-      href: "#",
-      className: "button"
-    }, "Download")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(AlignmentToolbar, {
+      onChange: newAlign => setAttributes({
+        alignContent: newAlign
+      })
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      value: blockHeading,
+      onChange: newTitle => setAttributes({
+        blockHeading: newTitle
+      }),
+      placeholder: "Add Title",
+      style: {
+        textAlign: alignContent
+      }
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      value: blockContent,
+      onChange: newContent => setAttributes({
+        blockContent: newContent
+      }),
+      style: {
+        textAlign: alignContent
+      },
+      placeholder: "Add Content"
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: btnUrl,
+      className: "button",
+      target: "_blank",
+      rel: "noopener noreferrer",
+      style: {
+        textAlign: alignContent
+      }
+    }, "Download"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(URLInputButton, {
+      url: btnUrl,
+      onChange: newUrl => {
+        setAttributes({
+          btnUrl: newUrl
+        });
+      }
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "image"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
-      src: "img/app.png"
+      src: blockImage,
+      style: {
+        textAlign: alignContent
+      }
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+      onSelect: newImg => setAttributes({
+        blockImage: newImg.sizes.medium.url
+      }),
+      type: "image",
+      render: ({
+        open
+      }) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(IconButton, {
+        onClick: open,
+        icon: "format-image",
+        showTooltip: "true",
+        label: "Uload Image"
+      })
     })))));
   },
   save: props => {
+    //extract props
+    const {
+      attributes: {
+        blockHeading,
+        blockContent,
+        blockImage,
+        btnUrl,
+        alignContent
+      }
+    } = props;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "image-text-block"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "container"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "content"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Download our App!"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Morbi eget iaculis tellus. Vestibulum eu leo odio. Pellentesque lacus magna, suscipit sed semper sed, tempor vitae nisi. Vivamus venenatis, lacus in ultricies pharetra, odio mi sagittis ipsum, ac maximus turpis mi eu mauris. Proin sed urna sed nisi ultricies maximus vitae vitae felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In molestie est eget imperdiet ornare. Aliquam erat volutpat. Vestibulum a condimentum sem.", " "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-      href: "#",
-      className: "button"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", {
+      style: {
+        textAlign: alignContent
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: blockHeading
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      style: {
+        textAlign: alignContent
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: blockContent
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: btnUrl,
+      className: "button",
+      target: "_blank",
+      rel: "noopener noreferrer",
+      style: {
+        textAlign: alignContent
+      }
     }, "Download")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "image"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
-      src: "img/app.png"
+      src: blockImage
     })))));
   }
 });
