@@ -86,6 +86,107 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/hero/index.js":
+/*!***************************!*\
+  !*** ./src/hero/index.js ***!
+  \***************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../logo.svg */ "./src/logo.svg");
+
+const {
+  registerBlockType
+} = wp.blocks;
+const {
+  RichText,
+  MediaUpload
+} = wp.blockEditor;
+const {
+  Button,
+  IconButton
+} = wp.components;
+
+registerBlockType("mtgtab/hero", {
+  title: "Hero Block",
+  category: "mt-blocks",
+  icon: "superhero",
+  attributes: {
+    heroTitle: {
+      type: "string",
+      source: "html",
+      selector: ".hero-block h1"
+    },
+    heroContent: {
+      type: "string",
+      source: "html",
+      selector: ".hero-block p"
+    }
+  },
+  edit: props => {
+    console.log(props); //extract props
+
+    const {
+      attributes: {
+        heroTitle,
+        heroContent
+      },
+      setAttributes
+    } = props; //Hero Title
+
+    const editHeroTitle = title => {
+      setAttributes({
+        heroTitle: title
+      });
+    }; //Hero Content
+
+
+    const editHeroContent = content => {
+      setAttributes({
+        heroContent: content
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "section"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "hero-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      value: heroTitle,
+      onChange: editHeroTitle,
+      placeholder: "Add Hero Title"
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      value: heroContent,
+      onChange: editHeroContent,
+      placeholder: "Add Hero Content"
+    })))));
+  },
+  save: props => {
+    //extract props
+    const {
+      attributes: {
+        heroTitle,
+        heroContent
+      }
+    } = props;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "section"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "hero-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: heroTitle
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: heroContent
+    })))));
+  }
+});
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -96,7 +197,9 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
+/* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
 // Import all the blocks scripts
+
 
 
 /***/ }),
@@ -188,8 +291,7 @@ registerBlockType("mtgtab/testimonial", {
     src: _logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
   },
   edit: props => {
-    console.log(props); //extract attributes value
-
+    //extract attributes value
     const {
       attributes: {
         testiMonialTitle,
