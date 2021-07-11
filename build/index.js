@@ -175,6 +175,7 @@ registerBlockType("mtgtab/testimonial", {
     testiMonialImage: {
       type: "string",
       source: "attribute",
+      attribute: "src",
       selector: ".testimonial-info img"
     }
   },
@@ -218,8 +219,8 @@ registerBlockType("mtgtab/testimonial", {
       src: testiMonialImage
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
       onSelect: onSelectImage,
-      type: "image",
-      value: testiMonialImage,
+      type: "image" //value={testiMonialImage}
+      ,
       render: ({
         open
       }) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(IconButton, {
@@ -252,8 +253,6 @@ registerBlockType("mtgtab/testimonial", {
       className: "testimonial-info"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
       src: testiMonialImage
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
-      value: testiMonialImage
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: testiMonialAuthor
     })))));

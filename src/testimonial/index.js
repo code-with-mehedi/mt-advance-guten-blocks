@@ -20,6 +20,7 @@ registerBlockType("mtgtab/testimonial", {
     testiMonialImage: {
       type: "string",
       source: "attribute",
+      attribute: "src",
       selector: ".testimonial-info img",
     },
   },
@@ -57,7 +58,7 @@ registerBlockType("mtgtab/testimonial", {
             <MediaUpload
               onSelect={onSelectImage}
               type="image"
-              value={testiMonialImage}
+              //value={testiMonialImage}
               render={({ open }) => (
                 <IconButton
                   onClick={open}
@@ -94,7 +95,6 @@ registerBlockType("mtgtab/testimonial", {
           </blockquote>
           <div className="testimonial-info">
             <img src={testiMonialImage} />
-            <RichText.Content value={testiMonialImage} />
             <p>
               <RichText.Content value={testiMonialAuthor} />
             </p>
