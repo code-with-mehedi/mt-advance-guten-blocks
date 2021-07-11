@@ -7,6 +7,11 @@ registerBlockType("mtgtab/testimonial", {
   title: "Testimonial",
   category: "mt-blocks",
   attributes: {
+    testiMonialTitle: {
+      type: "string",
+      source: "html",
+      selector: "h1",
+    },
     testiMonialText: {
       type: "string",
       source: "html",
@@ -30,26 +35,40 @@ registerBlockType("mtgtab/testimonial", {
     console.log(props);
     //extract attributes value
     const {
-      attributes: { testiMonialText, testiMonialAuthor, testiMonialImage },
+      attributes: {
+        testiMonialTitle,
+        testiMonialText,
+        testiMonialAuthor,
+        testiMonialImage,
+      },
       setAttributes,
     } = props;
     //Set attribute testimonial text
-    const saveTestionalTex = (newTesti) => {
+    const editTestionalText = (newTesti) => {
       setAttributes({ testiMonialText: newTesti });
     };
-
+    //edit testimonial title
+    const editTestionalTitle = (newTitle) => {
+      setAttributes({ testiMonialTitle: newTitle });
+    };
     //set attribute testimonial image
     const onSelectImage = (media) => {
       setAttributes({ testiMonialImage: media.sizes.medium.url });
     };
     return (
       <>
-        <h1>Testimonial Block</h1>
+        <h1>
+          <RichText
+            placeholder="Add Title"
+            onChange={editTestionalTitle}
+            value={testiMonialTitle}
+          />
+        </h1>
         <div className="testimonial-block">
           <blockquote>
             <RichText
               placeholder="Add testimonial text"
-              onChange={saveTestionalTex}
+              onChange={editTestionalText}
               value={testiMonialText}
             />
           </blockquote>
@@ -84,11 +103,18 @@ registerBlockType("mtgtab/testimonial", {
   },
   save: (props) => {
     const {
-      attributes: { testiMonialText, testiMonialAuthor, testiMonialImage },
+      attributes: {
+        testiMonialTitle,
+        testiMonialText,
+        testiMonialAuthor,
+        testiMonialImage,
+      },
     } = props;
     return (
       <>
-        <h1>Testimonial Block</h1>
+        <h1>
+          <RichText.Content value={testiMonialTitle} />
+        </h1>
         <div className="testimonial-block">
           <blockquote>
             <RichText.Content value={testiMonialText} />

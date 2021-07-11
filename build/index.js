@@ -162,6 +162,11 @@ registerBlockType("mtgtab/testimonial", {
   title: "Testimonial",
   category: "mt-blocks",
   attributes: {
+    testiMonialTitle: {
+      type: "string",
+      source: "html",
+      selector: "h1"
+    },
     testiMonialText: {
       type: "string",
       source: "html",
@@ -187,6 +192,7 @@ registerBlockType("mtgtab/testimonial", {
 
     const {
       attributes: {
+        testiMonialTitle,
         testiMonialText,
         testiMonialAuthor,
         testiMonialImage
@@ -194,9 +200,16 @@ registerBlockType("mtgtab/testimonial", {
       setAttributes
     } = props; //Set attribute testimonial text
 
-    const saveTestionalTex = newTesti => {
+    const editTestionalText = newTesti => {
       setAttributes({
         testiMonialText: newTesti
+      });
+    }; //edit testimonial title
+
+
+    const editTestionalTitle = newTitle => {
+      setAttributes({
+        testiMonialTitle: newTitle
       });
     }; //set attribute testimonial image
 
@@ -207,11 +220,15 @@ registerBlockType("mtgtab/testimonial", {
       });
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Testimonial Block"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      placeholder: "Add Title",
+      onChange: editTestionalTitle,
+      value: testiMonialTitle
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "testimonial-block"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       placeholder: "Add testimonial text",
-      onChange: saveTestionalTex,
+      onChange: editTestionalText,
       value: testiMonialText
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "testimonial-info"
@@ -240,12 +257,15 @@ registerBlockType("mtgtab/testimonial", {
   save: props => {
     const {
       attributes: {
+        testiMonialTitle,
         testiMonialText,
         testiMonialAuthor,
         testiMonialImage
       }
     } = props;
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Testimonial Block"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: testiMonialTitle
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "testimonial-block"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: testiMonialText
