@@ -27,7 +27,6 @@ h1 {
 }
 
 .testimonial-block {
-  border-top: 4px solid #ed143d;
   padding: 1rem;
   position: relative;
 }
@@ -63,7 +62,6 @@ h1 {
 }
 .testimonial-info p {
   font-family: "Montserrat", sans-serif;
-  color: #ed143d;
   font-weight: 700;
 }
 

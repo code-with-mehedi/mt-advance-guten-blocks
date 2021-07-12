@@ -1,17 +1,13 @@
 const { registerBlockType } = wp.blocks;
-const { RichText, MediaUpload } = wp.blockEditor;
-const { Button, IconButton } = wp.components;
+const { RichText, MediaUpload,InspectorControls, ColorPalette} = wp.blockEditor;
+const { Button, IconButton,PanelBody,TextControl,TabPanel } = wp.components;
 import { ReactComponent as Logo } from "../logo.svg";
 
 registerBlockType("mtgtab/testimonial", {
   title: "Testimonial",
   category: "mt-blocks",
   attributes: {
-    testiMonialTitle: {
-      type: "string",
-      source: "html",
-      selector: "h1",
-    },
+
     testiMonialText: {
       type: "string",
       source: "html",
@@ -28,6 +24,15 @@ registerBlockType("mtgtab/testimonial", {
       attribute: "src",
       selector: ".testimonial-info img",
     },
+    testiMonialTextColor: {
+      type: "string",
+    },
+    testiMonialAuthorColor: {
+      type: "string",
+    },
+    testiMonialBorderColor: {
+      type: "string",
+    },
   },
   icon: { src: Logo },
 
@@ -39,6 +44,9 @@ registerBlockType("mtgtab/testimonial", {
         testiMonialText,
         testiMonialAuthor,
         testiMonialImage,
+        testiMonialTextColor,
+        testiMonialAuthorColor,
+        testiMonialBorderColor
       },
       setAttributes,
     } = props;
@@ -46,29 +54,31 @@ registerBlockType("mtgtab/testimonial", {
     const editTestionalText = (newTesti) => {
       setAttributes({ testiMonialText: newTesti });
     };
-    //edit testimonial title
-    const editTestionalTitle = (newTitle) => {
-      setAttributes({ testiMonialTitle: newTitle });
-    };
+
     //set attribute testimonial image
     const onSelectImage = (media) => {
       setAttributes({ testiMonialImage: media.sizes.medium.url });
     };
     return (
       <>
-        <h1>
-          <RichText
-            placeholder="Add Title"
-            onChange={editTestionalTitle}
-            value={testiMonialTitle}
-          />
-        </h1>
-        <div className="testimonial-block">
+      <InspectorControls>
+        <PanelBody>
+          <p> Change Border color </p>
+          <ColorPalette onChange={ newColor=>setAttributes({testiMonialBorderColor: newColor})}/>
+
+          <p> Change text color </p>
+          <ColorPalette onChange={ newColor=>setAttributes({testiMonialTextColor: newColor})}/>
+          <p> Change Author Color </p>
+          <ColorPalette onChange={ newColor=>setAttributes({testiMonialAuthorColor: newColor})}/>
+        </PanelBody>
+      </InspectorControls>
+        <div className="testimonial-block" style={{ borderTop:`3px solid ${testiMonialBorderColor}`}}>
           <blockquote>
             <RichText
               placeholder="Add testimonial text"
               onChange={editTestionalText}
               value={testiMonialText}
+              style={{color: testiMonialTextColor }}
             />
           </blockquote>
           <div className="testimonial-info">
@@ -88,11 +98,12 @@ registerBlockType("mtgtab/testimonial", {
             />
             <p>
               <RichText
-                placeholder="Add the Name of the Person"
+                placeholder="Add Author Name"
                 value={testiMonialAuthor}
                 onChange={(testiAuthor) =>
                   setAttributes({ testiMonialAuthor: testiAuthor })
                 }
+                style={{color:testiMonialAuthorColor }}
               />
             </p>
           </div>
@@ -107,20 +118,21 @@ registerBlockType("mtgtab/testimonial", {
         testiMonialText,
         testiMonialAuthor,
         testiMonialImage,
+        testiMonialTextColor,
+        testiMonialAuthorColor,
+        testiMonialBorderColor
       },
     } = props;
     return (
       <>
-        <h1>
-          <RichText.Content value={testiMonialTitle} />
-        </h1>
-        <div className="testimonial-block">
-          <blockquote>
+
+        <div className="testimonial-block" style={{ borderTop:`3px solid ${testiMonialBorderColor}`}}>
+          <blockquote style={{color: testiMonialTextColor }}>
             <RichText.Content value={testiMonialText} />
           </blockquote>
           <div className="testimonial-info">
             <img src={testiMonialImage} />
-            <p>
+            <p style={{color:testiMonialAuthorColor }}>
               <RichText.Content value={testiMonialAuthor} />
             </p>
           </div>

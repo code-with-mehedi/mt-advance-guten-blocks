@@ -518,22 +518,22 @@ const {
 } = wp.blocks;
 const {
   RichText,
-  MediaUpload
+  MediaUpload,
+  InspectorControls,
+  ColorPalette
 } = wp.blockEditor;
 const {
   Button,
-  IconButton
+  IconButton,
+  PanelBody,
+  TextControl,
+  TabPanel
 } = wp.components;
 
 registerBlockType("mtgtab/testimonial", {
   title: "Testimonial",
   category: "mt-blocks",
   attributes: {
-    testiMonialTitle: {
-      type: "string",
-      source: "html",
-      selector: "h1"
-    },
     testiMonialText: {
       type: "string",
       source: "html",
@@ -549,6 +549,15 @@ registerBlockType("mtgtab/testimonial", {
       source: "attribute",
       attribute: "src",
       selector: ".testimonial-info img"
+    },
+    testiMonialTextColor: {
+      type: "string"
+    },
+    testiMonialAuthorColor: {
+      type: "string"
+    },
+    testiMonialBorderColor: {
+      type: "string"
     }
   },
   icon: {
@@ -561,7 +570,10 @@ registerBlockType("mtgtab/testimonial", {
         testiMonialTitle,
         testiMonialText,
         testiMonialAuthor,
-        testiMonialImage
+        testiMonialImage,
+        testiMonialTextColor,
+        testiMonialAuthorColor,
+        testiMonialBorderColor
       },
       setAttributes
     } = props; //Set attribute testimonial text
@@ -569,13 +581,6 @@ registerBlockType("mtgtab/testimonial", {
     const editTestionalText = newTesti => {
       setAttributes({
         testiMonialText: newTesti
-      });
-    }; //edit testimonial title
-
-
-    const editTestionalTitle = newTitle => {
-      setAttributes({
-        testiMonialTitle: newTitle
       });
     }; //set attribute testimonial image
 
@@ -586,16 +591,30 @@ registerBlockType("mtgtab/testimonial", {
       });
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
-      placeholder: "Add Title",
-      onChange: editTestionalTitle,
-      value: testiMonialTitle
-    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "testimonial-block"
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, " Change Border color "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ColorPalette, {
+      onChange: newColor => setAttributes({
+        testiMonialBorderColor: newColor
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, " Change text color "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ColorPalette, {
+      onChange: newColor => setAttributes({
+        testiMonialTextColor: newColor
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, " Change Author Color "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ColorPalette, {
+      onChange: newColor => setAttributes({
+        testiMonialAuthorColor: newColor
+      })
+    }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "testimonial-block",
+      style: {
+        borderTop: `3px solid ${testiMonialBorderColor}`
+      }
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       placeholder: "Add testimonial text",
       onChange: editTestionalText,
-      value: testiMonialText
+      value: testiMonialText,
+      style: {
+        color: testiMonialTextColor
+      }
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "testimonial-info"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
@@ -613,11 +632,14 @@ registerBlockType("mtgtab/testimonial", {
         label: "Add Image"
       })
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
-      placeholder: "Add the Name of the Person",
+      placeholder: "Add Author Name",
       value: testiMonialAuthor,
       onChange: testiAuthor => setAttributes({
         testiMonialAuthor: testiAuthor
-      })
+      }),
+      style: {
+        color: testiMonialAuthorColor
+      }
     })))));
   },
   save: props => {
@@ -626,20 +648,32 @@ registerBlockType("mtgtab/testimonial", {
         testiMonialTitle,
         testiMonialText,
         testiMonialAuthor,
-        testiMonialImage
+        testiMonialImage,
+        testiMonialTextColor,
+        testiMonialAuthorColor,
+        testiMonialBorderColor
       }
     } = props;
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
-      value: testiMonialTitle
-    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "testimonial-block"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "testimonial-block",
+      style: {
+        borderTop: `3px solid ${testiMonialBorderColor}`
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", {
+      style: {
+        color: testiMonialTextColor
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: testiMonialText
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "testimonial-info"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
       src: testiMonialImage
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      style: {
+        color: testiMonialAuthorColor
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: testiMonialAuthor
     })))));
   }
