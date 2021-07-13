@@ -2,3 +2,5 @@
 import "./testimonial";
 import "./hero";
 import "./imagewithText";
+import "./latest-post";
+

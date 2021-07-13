@@ -1,13 +1,17 @@
 const { registerBlockType } = wp.blocks;
-const { RichText, MediaUpload,InspectorControls, ColorPalette} = wp.blockEditor;
-const { Button, IconButton,PanelBody,TextControl,TabPanel } = wp.components;
+const {
+  RichText,
+  MediaUpload,
+  InspectorControls,
+  ColorPalette,
+} = wp.blockEditor;
+const { Button, IconButton, PanelBody } = wp.components;
 import { ReactComponent as Logo } from "../logo.svg";
 
 registerBlockType("mtgtab/testimonial", {
   title: "Testimonial",
   category: "mt-blocks",
   attributes: {
-
     testiMonialText: {
       type: "string",
       source: "html",
@@ -46,7 +50,7 @@ registerBlockType("mtgtab/testimonial", {
         testiMonialImage,
         testiMonialTextColor,
         testiMonialAuthorColor,
-        testiMonialBorderColor
+        testiMonialBorderColor,
       },
       setAttributes,
     } = props;
@@ -61,24 +65,39 @@ registerBlockType("mtgtab/testimonial", {
     };
     return (
       <>
-      <InspectorControls>
-        <PanelBody>
-          <p> Change Border color </p>
-          <ColorPalette onChange={ newColor=>setAttributes({testiMonialBorderColor: newColor})}/>
+        <InspectorControls>
+          <PanelBody>
+            <p> Change Border color </p>
+            <ColorPalette
+              onChange={(newColor) =>
+                setAttributes({ testiMonialBorderColor: newColor })
+              }
+            />
 
-          <p> Change text color </p>
-          <ColorPalette onChange={ newColor=>setAttributes({testiMonialTextColor: newColor})}/>
-          <p> Change Author Color </p>
-          <ColorPalette onChange={ newColor=>setAttributes({testiMonialAuthorColor: newColor})}/>
-        </PanelBody>
-      </InspectorControls>
-        <div className="testimonial-block" style={{ borderTop:`3px solid ${testiMonialBorderColor}`}}>
+            <p> Change text color </p>
+            <ColorPalette
+              onChange={(newColor) =>
+                setAttributes({ testiMonialTextColor: newColor })
+              }
+            />
+            <p> Change Author Color </p>
+            <ColorPalette
+              onChange={(newColor) =>
+                setAttributes({ testiMonialAuthorColor: newColor })
+              }
+            />
+          </PanelBody>
+        </InspectorControls>
+        <div
+          className="testimonial-block"
+          style={{ borderTop: `3px solid ${testiMonialBorderColor}` }}
+        >
           <blockquote>
             <RichText
               placeholder="Add testimonial text"
               onChange={editTestionalText}
               value={testiMonialText}
-              style={{color: testiMonialTextColor }}
+              style={{ color: testiMonialTextColor }}
             />
           </blockquote>
           <div className="testimonial-info">
@@ -103,7 +122,7 @@ registerBlockType("mtgtab/testimonial", {
                 onChange={(testiAuthor) =>
                   setAttributes({ testiMonialAuthor: testiAuthor })
                 }
-                style={{color:testiMonialAuthorColor }}
+                style={{ color: testiMonialAuthorColor }}
               />
             </p>
           </div>
@@ -120,19 +139,21 @@ registerBlockType("mtgtab/testimonial", {
         testiMonialImage,
         testiMonialTextColor,
         testiMonialAuthorColor,
-        testiMonialBorderColor
+        testiMonialBorderColor,
       },
     } = props;
     return (
       <>
-
-        <div className="testimonial-block" style={{ borderTop:`3px solid ${testiMonialBorderColor}`}}>
-          <blockquote style={{color: testiMonialTextColor }}>
+        <div
+          className="testimonial-block"
+          style={{ borderTop: `3px solid ${testiMonialBorderColor}` }}
+        >
+          <blockquote style={{ color: testiMonialTextColor }}>
             <RichText.Content value={testiMonialText} />
           </blockquote>
           <div className="testimonial-info">
             <img src={testiMonialImage} />
-            <p style={{color:testiMonialAuthorColor }}>
+            <p style={{ color: testiMonialAuthorColor }}>
               <RichText.Content value={testiMonialAuthor} />
             </p>
           </div>

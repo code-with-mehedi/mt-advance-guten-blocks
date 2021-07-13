@@ -461,10 +461,98 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
 /* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
 /* harmony import */ var _imagewithText__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imagewithText */ "./src/imagewithText/index.js");
+/* harmony import */ var _latest_post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./latest-post */ "./src/latest-post/index.js");
 // Import all the blocks scripts
 
 
 
+
+
+/***/ }),
+
+/***/ "./src/latest-post/index.js":
+/*!**********************************!*\
+  !*** ./src/latest-post/index.js ***!
+  \**********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../logo.svg */ "./src/logo.svg");
+
+const {
+  registerBlockType
+} = wp.blocks;
+const {
+  RichText,
+  MediaUpload,
+  AlignmentToolbar,
+  BlockControls,
+  URLInputButton
+} = wp.blockEditor;
+const {
+  withSelect
+} = wp.data;
+const {
+  Button,
+  IconButton
+} = wp.components;
+
+registerBlockType("mtgtab/latest-post", {
+  title: "Latest Posts",
+  category: "mt-blocks",
+  icon: {
+    src: _logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+  },
+  attributes: {
+    name: {
+      type: "string"
+    }
+  },
+  edit: withSelect(select => {
+    return {
+      //send get request to wp rest api
+      posts: select("core").getEntityRecords("postType", "post", {
+        per_page: 3
+      })
+    };
+  })(({
+    posts
+  }) => {
+    console.log(posts);
+
+    if (!posts) {
+      return "Loading...";
+    }
+
+    if (posts && posts.length === 0) {
+      return "There is no posts";
+    }
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "section"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Latest Posts"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", {
+      className: "latest-recipes container"
+    }, posts.map(post => {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+        src: post.featured_image_url
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+        className: "content"
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, post.title.rendered), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+        value: post.excerpt.rendered
+      })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+        href: post.link,
+        className: "button"
+      }, "Read More"))));
+    }))));
+  }),
+  save: () => {
+    return null;
+  }
+});
 
 /***/ }),
 
@@ -525,9 +613,7 @@ const {
 const {
   Button,
   IconButton,
-  PanelBody,
-  TextControl,
-  TabPanel
+  PanelBody
 } = wp.components;
 
 registerBlockType("mtgtab/testimonial", {
