@@ -75,15 +75,24 @@ class Mtgtab_assets {
             'editor_script'=>'mtgtab-editor-script',
             'editor_style'=>'mtgtab-editor-style',
             'style'=>'mtgtab-frontend-style',   
-            'render_callback'=>'mt_latest_posts_render'
+            'render_callback'=>'mt_latest_posts_render',
+            'attributes'      => [
+					'numberOfPosts' => [
+						'type'    => 'number',
+						'default' => 3,
+					],
+				],
+
         ) );
         /**Callback latest post */
-        function mt_latest_posts_render(){
+        function mt_latest_posts_render($attributes){
+            $attributes = wp_parse_args( $attributes, [] );
+            $numpost= intval($attributes['numberOfPosts']);
             //post response 
             global $post;
             $recentPosts=wp_get_recent_posts( array(
                 'post_type'=>'post',
-                'numberpost'=>3,
+                'numberposts'=>$numpost,
                 'post_status'=>'publish',
 
             ));

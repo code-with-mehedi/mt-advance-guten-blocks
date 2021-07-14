@@ -5,9 +5,10 @@ const {
   AlignmentToolbar,
   BlockControls,
   URLInputButton,
+  InspectorControls,
 } = wp.blockEditor;
 const { withSelect } = wp.data;
-const { Button, IconButton } = wp.components;
+const { Button, IconButton, RangeControl, PanelBody } = wp.components;
 import { ReactComponent as Logo } from "../logo.svg";
 
 registerBlockType("mtgtab/latest-post", {
@@ -18,24 +19,45 @@ registerBlockType("mtgtab/latest-post", {
     name: {
       type: "string",
     },
+    numberOfPosts: {
+      type: "number",
+      default: 3,
+    },
   },
-  edit: withSelect((select) => {
+  edit: withSelect((select, props) => {
+    const {
+      attributes: { name, numberOfPosts },
+    } = props;
     return {
       //send get request to wp rest api
       posts: select("core").getEntityRecords("postType", "post", {
-        per_page: 3,
+        per_page: numberOfPosts,
       }),
     };
-  })(({ posts }) => {
-    console.log(posts);
+  })(({ posts, attributes, setAttributes }) => {
+    const { numberOfPosts } = attributes;
     if (!posts) {
       return "Loading...";
     }
     if (posts && posts.length === 0) {
       return "There is no posts";
     }
+
     return (
       <>
+        <InspectorControls>
+          <PanelBody>
+            <RangeControl
+              onChange={(numPosts) =>
+                setAttributes({ numberOfPosts: numPosts })
+              }
+              value={numberOfPosts}
+              label="Number of posts"
+              min="3"
+              max="10"
+            />
+          </PanelBody>
+        </InspectorControls>
         <div className="section">
           <h1>Latest Posts</h1>
           <ul className="latest-recipes container">

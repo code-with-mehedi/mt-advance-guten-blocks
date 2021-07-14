@@ -491,14 +491,17 @@ const {
   MediaUpload,
   AlignmentToolbar,
   BlockControls,
-  URLInputButton
+  URLInputButton,
+  InspectorControls
 } = wp.blockEditor;
 const {
   withSelect
 } = wp.data;
 const {
   Button,
-  IconButton
+  IconButton,
+  RangeControl,
+  PanelBody
 } = wp.components;
 
 registerBlockType("mtgtab/latest-post", {
@@ -510,19 +513,33 @@ registerBlockType("mtgtab/latest-post", {
   attributes: {
     name: {
       type: "string"
+    },
+    numberOfPosts: {
+      type: "number",
+      default: 3
     }
   },
-  edit: withSelect(select => {
+  edit: withSelect((select, props) => {
+    const {
+      attributes: {
+        name,
+        numberOfPosts
+      }
+    } = props;
     return {
       //send get request to wp rest api
       posts: select("core").getEntityRecords("postType", "post", {
-        per_page: 3
+        per_page: numberOfPosts
       })
     };
   })(({
-    posts
+    posts,
+    attributes,
+    setAttributes
   }) => {
-    console.log(posts);
+    const {
+      numberOfPosts
+    } = attributes;
 
     if (!posts) {
       return "Loading...";
@@ -532,7 +549,15 @@ registerBlockType("mtgtab/latest-post", {
       return "There is no posts";
     }
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RangeControl, {
+      onChange: numPosts => setAttributes({
+        numberOfPosts: numPosts
+      }),
+      value: numberOfPosts,
+      label: "Number of posts",
+      min: "3",
+      max: "10"
+    }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "section"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Latest Posts"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", {
       className: "latest-recipes container"
