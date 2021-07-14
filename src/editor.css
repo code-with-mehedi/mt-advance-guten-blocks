@@ -129,6 +129,14 @@ h1 {
 
 /*Latest Post*/
 ul.latest-posts.container {
+  list-style: none !important;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
 }
 ul.latest-posts.container li {
+  flex: 1;
+  flex-basis: 29%;
+  margin: 25px;
 }
