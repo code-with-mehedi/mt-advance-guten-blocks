@@ -500,6 +500,7 @@ const {
 const {
   Button,
   IconButton,
+  SelectControl,
   RangeControl,
   PanelBody
 } = wp.components;
@@ -517,28 +518,37 @@ registerBlockType("mtgtab/latest-post", {
     numberOfPosts: {
       type: "number",
       default: 3
+    },
+    postCategories: {
+      type: "string"
     }
   },
   edit: withSelect((select, props) => {
     const {
       attributes: {
         name,
-        numberOfPosts
+        numberOfPosts,
+        postCategories
       }
     } = props;
     return {
       //send get request to wp rest api
       posts: select("core").getEntityRecords("postType", "post", {
         per_page: numberOfPosts
+      }),
+      categories: select("core").getEntityRecords("taxonomy", "category", {
+        per_page: -1
       })
     };
   })(({
     posts,
+    categories,
     attributes,
     setAttributes
   }) => {
     const {
-      numberOfPosts
+      numberOfPosts,
+      postCategories
     } = attributes;
 
     if (!posts) {
@@ -549,6 +559,12 @@ registerBlockType("mtgtab/latest-post", {
       return "There is no posts";
     }
 
+    const setCategories = newCategory => {
+      setAttributes({
+        postCategories: newCategory
+      });
+    };
+
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RangeControl, {
       onChange: numPosts => setAttributes({
         numberOfPosts: numPosts
@@ -557,6 +573,14 @@ registerBlockType("mtgtab/latest-post", {
       label: "Number of posts",
       min: "3",
       max: "10"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(SelectControl, {
+      label: "Select Category",
+      onChange: setCategories,
+      value: postCategories,
+      options: categories && categories.map(category => ({
+        value: category.id,
+        label: category.name
+      }))
     }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "section"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Latest Posts"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", {

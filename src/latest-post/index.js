@@ -8,7 +8,13 @@ const {
   InspectorControls,
 } = wp.blockEditor;
 const { withSelect } = wp.data;
-const { Button, IconButton, RangeControl, PanelBody } = wp.components;
+const {
+  Button,
+  IconButton,
+  SelectControl,
+  RangeControl,
+  PanelBody,
+} = wp.components;
 import { ReactComponent as Logo } from "../logo.svg";
 
 registerBlockType("mtgtab/latest-post", {
@@ -23,26 +29,36 @@ registerBlockType("mtgtab/latest-post", {
       type: "number",
       default: 3,
     },
+    postCategories: {
+      type: "string",
+    },
   },
   edit: withSelect((select, props) => {
     const {
-      attributes: { name, numberOfPosts },
+      attributes: { name, numberOfPosts, postCategories },
     } = props;
     return {
       //send get request to wp rest api
       posts: select("core").getEntityRecords("postType", "post", {
         per_page: numberOfPosts,
       }),
+      categories: select("core").getEntityRecords("taxonomy", "category", {
+        per_page: -1,
+      }),
     };
-  })(({ posts, attributes, setAttributes }) => {
-    const { numberOfPosts } = attributes;
+  })(({ posts, categories, attributes, setAttributes }) => {
+    const { numberOfPosts, postCategories } = attributes;
     if (!posts) {
       return "Loading...";
     }
     if (posts && posts.length === 0) {
       return "There is no posts";
     }
-
+    const setCategories = (newCategory) => {
+      setAttributes({
+        postCategories: newCategory,
+      });
+    };
     return (
       <>
         <InspectorControls>
@@ -55,6 +71,18 @@ registerBlockType("mtgtab/latest-post", {
               label="Number of posts"
               min="3"
               max="10"
+            />
+            <SelectControl
+              label="Select Category"
+              onChange={setCategories}
+              value={postCategories}
+              options={
+                categories &&
+                categories.map((category) => ({
+                  value: category.id,
+                  label: category.name,
+                }))
+              }
             />
           </PanelBody>
         </InspectorControls>

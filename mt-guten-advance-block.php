@@ -81,6 +81,9 @@ class Mtgtab_assets {
 						'type'    => 'number',
 						'default' => 3,
 					],
+                    'postCategories'=>[
+                        'type'=>'string'
+                    ]
 				],
 
         ) );
@@ -88,12 +91,15 @@ class Mtgtab_assets {
         function mt_latest_posts_render($attributes){
             $attributes = wp_parse_args( $attributes, [] );
             $numpost= intval($attributes['numberOfPosts']);
+            $categories=$attributes['postCategories'];
+            //echo $categories;
             //post response 
             global $post;
             $recentPosts=wp_get_recent_posts( array(
                 'post_type'=>'post',
                 'numberposts'=>$numpost,
                 'post_status'=>'publish',
+                'cat'=>$categories
 
             ));
             if(count($recentPosts)===0){
